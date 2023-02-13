@@ -1,0 +1,21 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+
+.container {
+  position: relative;
+  width: 600px;
+  height: 600px;
+  background-color: black;
+  margin: 30px auto;
+
+}
+
+#spaceship {
+  width: 60px;
+  position: absolute;
+  bottom: 0;
+  left:270px;
+}
