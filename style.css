@@ -24,4 +24,5 @@
   width: 40px;
   position: absolute;
   top:0;
+  overflow: hidden;
 }
