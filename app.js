@@ -2,13 +2,6 @@ let spaceship = document.querySelector("#spaceship");
 
 const container= document.querySelector(".container");
 
-const limitLeft = 0;
-const limitRight = 540;
-const limitTop = 36;
-const limitBottom = 520;
-const movement = 10;
-
-
 //Spaceship position movement
 window.addEventListener("keydown", function(e) {
 
@@ -18,26 +11,32 @@ window.addEventListener("keydown", function(e) {
 
    //If a left key is press down
    //Change the left position
-   switch (e.key) {
+   switch (e.code) {
      case "ArrowLeft":
-        if(left > limitLeft ) {
-          spaceship.style.left = left - movement + "px"
-        };
+        if(left > 30){
+          spaceship.style.left = left - 20 + "px"
+        }
        break;
      case "ArrowRight":
-        if(left < limitRight ) {
-          spaceship.style.left = left + movement + "px"
-        };
+         if(left < 1190){
+          spaceship.style.left = left + 20 + "px"
+        }
        break;
     case "ArrowUp" :
-       if(top  > limitTop) {
-         spaceship.style.top = top - movement + "px"
-       };
+          if(top > 65){
+         spaceship.style.top = top - 20 + "px"
+       }
       break;
     case "ArrowDown":
-      if(top < limitBottom){
-        spaceship.style.top = top + movement + "px"
-      };
+         if(top < 500){
+        spaceship.style.top = top + 20 + "px"
+     }
+     break;
+    case "Space":
+    let bullet = document.createElement("IMG");
+    bullet.setAttribute("id", "bullet");
+    bullet.setAttribute("src", "img/bullet.png");
+      container.appendChild(bullet);
      break;
    }
 });
@@ -50,24 +49,21 @@ const alien = document.createElement("IMG");
       alien.setAttribute("id", "alien");
       alien.setAttribute("src", "img/alien.png");
 
-alien.style.left = Math.floor(Math.random() * 540)+ 'px';
+alien.style.left = Math.floor(Math.random() * 1000)+ 'px';
 container.appendChild(alien);
 };
 
 //Move down aliens
 function moveAlien() {
   let aliens = document.querySelectorAll("#alien");
-  for( var i=0; i< aliens.length; i++){
-    let alien = aliens[i];
+  aliens.forEach( (alien) => {
     let alienTop = parseInt(window.getComputedStyle(alien).getPropertyValue("top"));
-    alien.style.top = alienTop + 20 + 'px';
+     alien.style.top = alienTop + 20 + 'px';
+     if(alienTop === 700) {
+       alien.remove()
+     };
+  });
+};
 
-    if(alienTop === 560){
-      alien.remove()
-    }
-  }
-}
-
-
-setInterval(generateAlien,1500);
-setInterval(moveAlien,450);
+//setInterval(generateAlien,1500);
+//setInterval(moveAlien,450);

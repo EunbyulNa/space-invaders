@@ -5,24 +5,31 @@
 
 
 .container {
+  background-image: url('img/background.jpg');
   position: relative;
-  width: 600px;
-  height: 600px;
-  background-color: black;
-  margin: 30px auto;
-
+  width: 100vw;
+  height: 100vh;
+ border: 1px solid white;
+ overflow: hidden;
 }
 
 #spaceship {
-  width: 60px;
+  position: relative;
+  width: 80px;
   position: absolute;
   bottom: 0;
-  left:270px;
+  left:50%;
 }
 
 #alien {
-  width: 40px;
+  width: 70px;
   position: absolute;
   top:0;
   overflow: hidden;
+}
+
+#bullet {
+  width: 40px;
+  position: absolute;
+
 }
