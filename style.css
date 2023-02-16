@@ -4,21 +4,26 @@
 }
 
 .start {
-  position: relative;
-}
-.start-img{
   position: absolute;
-  top: 10%;
-  left: 10%;
-  transform: translate(-10%, -10%);
-  width: 100%;
-  z-index: 3;
+  text-align: center;
+    z-index: 3;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+}
+
+.start-txt{
+  font-family: 'Press Start 2P', cursive;
+  position: absolute;
+  color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 
 
 .container {
-
   background-image: url('img/background.jpg');
   position: relative;
   width: 100vw;
@@ -39,13 +44,13 @@
   width: 70px;
   position: absolute;
   top:0;
+  left: 40px;
   overflow: hidden;
 }
 
 #bullet{
-
   position: absolute;
   bottom: 40px;
-  width: 40px;
+  width: 50px;
   height: 40px;
 }

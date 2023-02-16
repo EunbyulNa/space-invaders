@@ -1,21 +1,24 @@
 
 const container= document.querySelector(".container");
 
+//Generate start image
 window.addEventListener("DOMContentLoaded", function () {
   let start = document.createElement("div");
-  let startImg = document.createElement("IMG");
+  let h1 = document.createElement("h1");
+
   start.classList.add("start")
-  startImg.classList.add("start-img");
-  startImg.setAttribute("src", "img/start.jpeg");
+const startTxt = document.createTextNode("Press enter to Play");
+h1.appendChild(startTxt);
   container.appendChild(start);
-  start.appendChild(startImg);
+  start.appendChild(h1);
+  h1.classList.add("start-txt");
 });
 
+//Start the game
 window.addEventListener("keydown", function (e) {
   let start = document.querySelector(".start")
   if(e.code === "Enter") {
-     start.style.opacity = 0;
-
+     start.remove()
       setInterval(generateAlien,1500)
       setInterval(moveAlien,450)
 
@@ -47,49 +50,8 @@ window.addEventListener("keydown", function(e) {
           spaceship.style.left = left + 20 + "px"
         }
        break;
-    case "ArrowUp" :
-          if(top > 65){
-         spaceship.style.top = top - 20 + "px"
-       }
-      break;
-    case "ArrowDown":
-         if(top < 600){
-        spaceship.style.top = top + 20 + "px"
-     }
-     break;
-
    }
 });
-
-
-window.addEventListener("keydown", function (e) {
-  if(e.keyCode == 32) {
-
-    let bullet = document.createElement("IMG");
-    bullet.setAttribute("id", "bullet");
-    bullet.setAttribute("src", "img/bullet.png");
-    container.appendChild(bullet);
-
-    //Updating bullet bottom position every seconds
-    let moveBullet = setInterval(() => {
-      let bulletBottom =  parseInt(window.getComputedStyle(bullet).getPropertyValue("bottom"));
-      let left = parseInt(window.getComputedStyle(spaceship).getPropertyValue("left"));
-
-
-     bullet.style.bottom = bulletBottom + 3 + 'px';
-      bullet.style.left = left+20+ 'px'
-    let bullets = document.querySelectorAll("#bullet");
-    bullets.forEach( (bullet) => {
-      if(bulletBottom === 1000) {
-        bullet.remove();
-        clearInterval(moveBullet);
-      }
-
-    })
-
-  },4)
- }
-})
 
 //Generate aliens
 function generateAlien() {
@@ -114,3 +76,50 @@ function moveAlien() {
      };
   });
 };
+
+window.addEventListener("keydown", function (e) {
+  if(e.keyCode == 32) {
+    let left = parseInt(window.getComputedStyle(spaceship).getPropertyValue("left"));
+
+    let bullet = document.createElement("IMG");
+    bullet.setAttribute("id", "bullet");
+    bullet.setAttribute("src", "img/bullet.png");
+    container.appendChild(bullet);
+       bullet.style.left = left + 14 + 'px'
+
+    //Updating bullet bottom position every seconds
+   let moveBullet = setInterval(() => {
+
+     let bulletBottom =  parseInt(window.getComputedStyle(bullet).getPropertyValue("bottom"));
+     bullet.style.bottom = bulletBottom + 3 + 'px';
+
+
+    let bullets = document.querySelectorAll("#bullet");
+    let aliens = document.querySelectorAll("#alien");
+
+    bullets.forEach( (bullet) => {
+      let bulletRect = bullet.getBoundingClientRect();
+    aliens.forEach( (alien) => {
+     let alienRect = alien.getBoundingClientRect();
+
+     if(bulletRect.top <= alienRect.bottom &&
+       bulletRect.bottom >= alienRect.top &&
+       bulletRect.left <= alienRect.right &&
+       bulletRect.right >= alienRect.left)
+       {
+       alien.remove()
+       bullet.remove();
+     }
+    })
+
+     if(bulletBottom === 700) {
+       bullet.remove();
+       clearInterval(moveBullet);
+     };
+
+    })
+  },1)
+
+
+}
+})
