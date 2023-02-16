@@ -15,15 +15,14 @@ window.addEventListener("keydown", function (e) {
   let start = document.querySelector(".start")
   if(e.code === "Enter") {
      start.style.opacity = 0;
-     setTimeout(() => {
-  container.removeChild(start);
-  setTimeout(() => {
-    generateAlien();
-  }, 1000);
-}, 5000);
 
-  }
+      setInterval(generateAlien,1500)
+      setInterval(moveAlien,450)
+
+}
 })
+
+
 
 let spaceship = document.querySelector("#spaceship");
 //Spaceship position movement
@@ -72,19 +71,27 @@ window.addEventListener("keydown", function (e) {
     container.appendChild(bullet);
 
     //Updating bullet bottom position every seconds
-    /*let moveBullet = setInterval(() => {
+    let moveBullet = setInterval(() => {
       let bulletBottom =  parseInt(window.getComputedStyle(bullet).getPropertyValue("bottom"));
-      console.log(bulletBottom)
-     bullet.style.bottom = bulletBottom + 3 + 'px'
-   },2000)*/
+      let left = parseInt(window.getComputedStyle(spaceship).getPropertyValue("left"));
+
+
+     bullet.style.bottom = bulletBottom + 3 + 'px';
+      bullet.style.left = left+20+ 'px'
+    let bullets = document.querySelectorAll("#bullet");
+    bullets.forEach( (bullet) => {
+      if(bulletBottom === 1000) {
+        bullet.remove();
+        clearInterval(moveBullet);
+      }
+
+    })
+
+  },4)
  }
 })
 
 //Generate aliens
-
-
-
-
 function generateAlien() {
 
 const alien = document.createElement("IMG");
@@ -94,8 +101,6 @@ const alien = document.createElement("IMG");
 alien.style.left = Math.floor(Math.random() * 1000)+ 'px';
 container.appendChild(alien);
 };
-
-
 
 
 //Move down aliens
@@ -109,6 +114,3 @@ function moveAlien() {
      };
   });
 };
-
-setInterval(generateAlien,1500);
-setInterval(moveAlien,450);
