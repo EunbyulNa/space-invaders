@@ -31,8 +31,16 @@
  overflow: hidden;
 }
 
+.score {
+  padding: 20px;
+  text-align: center;
+  color: white;
+
+}
+
+
 #spaceship {
-  border: 1px solid red;
+
   position: relative;
   width: 80px;
   position: absolute;
@@ -42,6 +50,7 @@
 
 #alien {
   width: 70px;
+  height: 50px;
   position: absolute;
   top:0;
   left: 40px;

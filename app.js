@@ -1,6 +1,7 @@
 
 const container= document.querySelector(".container");
 let spaceship = document.querySelector("#spaceship");
+let scoreUpdate = 0;
 
 window.addEventListener("DOMContentLoaded", createStartImg);
 
@@ -22,12 +23,41 @@ function createStartImg() {
  });
 };
 
+function gameOver() {
+  let end = document.createElement("div");
+  const h1 = document.createElement("h1");
+  end.classList.add("start");
+  const endTxt = document.createTextNode("Gameover");
+  h1.appendChild(endTxt);
+  end.appendChild(h1);
+  h1.classList.add("start-txt");
+  container.appendChild(end);
+
+
+}
+
 //Start the game
 function startGame() {
     let start = document.querySelector(".start");
     start.remove();
+    generateScore();
     setInterval(generateAlien,1500);
     setInterval(moveAlien,450);
+}
+
+//GenerateScore
+function generateScore() {
+  const score = document.createElement("h1");
+  const scoreSpan = document.createElement("span");
+
+  score.classList.add("score");
+  const scoreTxt = document.createTextNode("Score : ");
+  let scoreSpanTxt = document.createTextNode(scoreUpdate);
+
+  scoreSpan.appendChild(scoreSpanTxt)
+  score.appendChild(scoreTxt);
+  score.appendChild(scoreSpan);
+  container.appendChild(score);
 }
 
 //Generate aliens
@@ -45,6 +75,27 @@ function moveAlien() {
   aliens.forEach( (alien) => {
     let alienTop = parseInt(window.getComputedStyle(alien).getPropertyValue("top"));
      alien.style.top = alienTop + 20 + 'px';
+
+
+     // check for collision with spaceship
+    /*let spaceshipRect = spaceship.getBoundingClientRect();
+    let alienRect = alien.getBoundingClientRect();
+    let padding = 50;
+
+    //spaceship.style.border = "1px solid red"
+
+    if (alienRect.top <= spaceshipRect.bottom - padding&&
+        alienRect.bottom >= spaceshipRect.top + padding&&
+        alienRect.left <= spaceshipRect.right - padding&&
+        alienRect.right >= spaceshipRect.left + padding)
+        {
+      // collision detected, end the game
+      clearInterval(generateAlien,1500);
+      clearInterval(moveAlien,450);
+      alert("gameover")
+    }*/
+
+
      if(alienTop === 700) {
        alien.remove()
      };
@@ -54,23 +105,34 @@ function moveAlien() {
 
 //Spaceship position movement
 window.addEventListener("keydown", function(e) {
-
   //Get the left and top position
   let left = parseInt(window.getComputedStyle(spaceship).getPropertyValue("left"));
   let top = parseInt(window.getComputedStyle(spaceship).getPropertyValue("top"));
+  let bottom = parseInt(window.getComputedStyle(spaceship).getPropertyValue("bottom"));
+
 
    //If a left key is press down change the left position
    switch (e.code) {
      case "ArrowLeft":
         if(left > 30){
+
           spaceship.style.left = left - 20 + "px"
         };
        break;
      case "ArrowRight":
          if(left < 1190){
+
           spaceship.style.left = left + 20 + "px"
         };
        break;
+
+       case "ArrowUp" :
+         if(top > 65){
+
+        spaceship.style.top = top - 20 + "px"
+      }
+     break;
+
     case "Space":
        generateBullet();
        break;
@@ -79,6 +141,9 @@ window.addEventListener("keydown", function(e) {
 
 //Generate bullet
 function generateBullet() {
+
+    let scoreSpan = document.querySelector(".score span");
+
     let bullet = document.createElement("IMG");
     bullet.setAttribute("id", "bullet");
     bullet.setAttribute("src", "img/bullet.png");
@@ -108,6 +173,9 @@ function generateBullet() {
             bulletRect.left <= alienRect.right &&
             bulletRect.right >= alienRect.left)
             {
+             scoreUpdate = scoreUpdate + 1;
+            scoreSpan.textContent = scoreUpdate;
+
             alien.remove()
             bullet.remove();
           }
@@ -119,6 +187,6 @@ function generateBullet() {
           };
 
          })
-         },5)
+      },5)
 
 }
