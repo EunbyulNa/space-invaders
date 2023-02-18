@@ -2,6 +2,7 @@
 const container= document.querySelector(".container");
 let spaceship = document.querySelector("#spaceship");
 let scoreUpdate = 0;
+let timerUpdate = 0;
 
 window.addEventListener("DOMContentLoaded", createStartImg);
 
@@ -23,7 +24,7 @@ function createStartImg() {
  });
 };
 
-function gameOver() {
+/*function gameOver() {
   let end = document.createElement("div");
   const h1 = document.createElement("h1");
   end.classList.add("start");
@@ -34,20 +35,47 @@ function gameOver() {
   container.appendChild(end);
 
 
-}
+}*/
 
 //Start the game
 function startGame() {
     let start = document.querySelector(".start");
     start.remove();
     generateScore();
-    setInterval(generateAlien,1500);
-    setInterval(moveAlien,450);
+    generateTimer();
+    
+    //Timer
+
+  let startMin = 1;
+  let time = startMin * 60;
+  
+  const timerWork = setInterval(() => {
+    let mins = Math.floor(time / 60);
+    let second = time % 60;
+
+    let aTimer = document.querySelector(".timer span");
+    
+    time --;
+    
+    console.log(mins + ":" + second)
+
+    timerUpdate =  mins + ":" + second;
+  
+    aTimer.textContent = timerUpdate;
+  
+    if(second === 0 ){
+      clearInterval(timerWork)
+    }
+  },1000)
+
+
+    //setInterval(generateAlien,1500);
+    //setInterval(moveAlien,450);
 }
 
 //GenerateScore
 function generateScore() {
-  const score = document.createElement("h1");
+  const score = document.createElement("p");
   const scoreSpan = document.createElement("span");
 
   score.classList.add("score");
@@ -59,6 +87,28 @@ function generateScore() {
   score.appendChild(scoreSpan);
   container.appendChild(score);
 }
+
+//GenerateTimer
+function generateTimer() {
+  const timer = document.createElement("p");
+  const timerSpan = document.createElement("span");
+
+  timer.classList.add("timer");
+  const timerTxt = document.createTextNode("Timer : ");
+  let timerSpanTxt = document.createTextNode(timerUpdate);
+
+  timerSpan.appendChild(timerSpanTxt)
+  timer.appendChild(timerTxt);
+  timer.appendChild(timerSpan);
+  container.appendChild(timer);
+ 
+
+}
+
+  
+  
+
+
 
 //Generate aliens
 function generateAlien() {
@@ -107,37 +157,25 @@ function moveAlien() {
 window.addEventListener("keydown", function(e) {
   //Get the left and top position
   let left = parseInt(window.getComputedStyle(spaceship).getPropertyValue("left"));
-  let top = parseInt(window.getComputedStyle(spaceship).getPropertyValue("top"));
-  let bottom = parseInt(window.getComputedStyle(spaceship).getPropertyValue("bottom"));
-
 
    //If a left key is press down change the left position
    switch (e.code) {
      case "ArrowLeft":
         if(left > 30){
-
           spaceship.style.left = left - 20 + "px"
         };
        break;
      case "ArrowRight":
          if(left < 1190){
-
           spaceship.style.left = left + 20 + "px"
         };
        break;
-
-       case "ArrowUp" :
-         if(top > 65){
-
-        spaceship.style.top = top - 20 + "px"
-      }
-     break;
-
-    case "Space":
+     case "Space":
        generateBullet();
        break;
    }
 });
+
 
 //Generate bullet
 function generateBullet() {
@@ -174,10 +212,9 @@ function generateBullet() {
             bulletRect.right >= alienRect.left)
             {
              scoreUpdate = scoreUpdate + 1;
-            scoreSpan.textContent = scoreUpdate;
-
-            alien.remove()
-            bullet.remove();
+             scoreSpan.textContent = scoreUpdate;
+             alien.remove()
+             bullet.remove();
           }
          })
 
