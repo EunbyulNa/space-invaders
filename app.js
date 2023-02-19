@@ -5,6 +5,7 @@ let scoreUpdate = 0;
 let timerUpdate=0;
 let generateAlienId;
 let moveAlienId;
+let isGameOver = true;
 
 window.addEventListener("DOMContentLoaded", createStartImg);
 
@@ -27,74 +28,18 @@ function createStartImg() {
 };
 
 
-
-
 //Start the game
 function startGame() {
+    isGameOver = false;
+
     let start = document.querySelector(".start");
     start.remove();
     generateScore();
     generateTimer();
-    timeReduce()
+    timeReduce();
     generateAlienId = setInterval(generateAlien, 1500);
     moveAlienId = setInterval(moveAlien, 450);
-
 }
-
-function timeReduce() {
-  let time = 60; //60seconds
-
-  const timerWork = setInterval(() => {
-  let aTimer = document.querySelector(".timer span");
-
-  let mins = Math.floor(time / 60);   //1
-  let second = time % 60;   //1 % 60 -> 0
-
-  //if mins are less than 10 add "0" front of mins,
-  //if seconds are less than 10, add "0" front of seconds
-    if(mins < 10) {
-    mins = "0" + mins;
-  }
-  if(second < 10) {
-    second = "0" + second;
-  }
-  
-  timerUpdate = mins + ":" +  second;
-  aTimer.textContent = timerUpdate;
-
-  time --;
- 
-  if(time == 55 ){
-    clearInterval(timerWork);
-   
-     gameOver();
-  }
-},1000)
-}
-
-//Gameover
-function gameOver(){
-  
-
-spaceship.remove();
-  clearInterval(generateAlienId);
-  clearInterval(moveAlienId);
- const overDiv = document.createElement("div");
- const overh1 = document.createElement("h1");
- const overTxt = document.createTextNode("Game over");
- const overP = document.createElement("p");
- const overTxtTwo = document.createTextNode("Your score is : ");
-
- overDiv.classList.add("game-over");
- overh1.appendChild(overTxt);
- overP.appendChild(overTxtTwo);
- overDiv.appendChild(overh1);
- overDiv.appendChild(overP);
- container.appendChild(overDiv);
-
-}
-
-
 
 //GenerateScore
 function generateScore() {
@@ -105,11 +50,11 @@ function generateScore() {
   const scoreTxt = document.createTextNode("Score : ");
   let scoreSpanTxt = document.createTextNode(scoreUpdate);
 
-  scoreSpan.appendChild(scoreSpanTxt)
+  scoreSpan.appendChild(scoreSpanTxt);
   score.appendChild(scoreTxt);
   score.appendChild(scoreSpan);
   container.appendChild(score);
-}
+};
 
 //GenerateTimer
 function generateTimer() {
@@ -123,10 +68,39 @@ function generateTimer() {
   timerSpan.appendChild(timerSpanTxt)
   timer.appendChild(timerTxt);
   timer.appendChild(timerSpan);
-  container.appendChild(timer);
- 
+  container.appendChild(timer); 
+};
 
-}
+//Time reduce 
+function timeReduce() {
+  let time = 60; //60seconds
+
+  const timerWork = setInterval(() => {
+  let aTimer = document.querySelector(".timer span");
+
+  let mins = Math.floor(time / 60);   //1
+  let second = time % 60;   //1 % 60 -> 0
+
+  //if mins are less than 10 add "0" front of mins,
+  //if seconds are less than 10, add "0" front of seconds
+    if(mins < 10) {
+    mins = "0" + mins;
+  };
+  if(second < 10) {
+    second = "0" + second;
+  };
+  
+  timerUpdate = mins + ":" +  second;
+  aTimer.textContent = timerUpdate;
+
+  time --;
+ 
+  if(time < 0 ){
+    clearInterval(timerWork);
+    gameOver();
+  };
+},1000);
+};
 
 
 //Generate aliens
@@ -152,6 +126,9 @@ function moveAlien() {
 
 //Spaceship position movement
 window.addEventListener("keydown", function(e) {
+
+  if(isGameOver) return; //if game is over, exit the keydown event function
+
   //Get the left and top position
   let left = parseInt(window.getComputedStyle(spaceship).getPropertyValue("left"));
 
@@ -170,13 +147,12 @@ window.addEventListener("keydown", function(e) {
      case "Space":
        generateBullet();
        break;
-   }
+   };
 });
 
 
 //Generate bullet
 function generateBullet() {
-
     let scoreSpan = document.querySelector(".score span");
 
     let bullet = document.createElement("IMG");
@@ -203,24 +179,51 @@ function generateBullet() {
          aliens.forEach( (alien) => {
           let alienRect = alien.getBoundingClientRect();
 
-          if(bulletRect.top <= alienRect.bottom &&
+          if(
+            bulletRect.top <= alienRect.bottom &&
             bulletRect.bottom >= alienRect.top &&
             bulletRect.left <= alienRect.right &&
-            bulletRect.right >= alienRect.left)
+            bulletRect.right >= alienRect.left
+            )
             {
              scoreUpdate = scoreUpdate + 1;
              scoreSpan.textContent = scoreUpdate;
              alien.remove()
              bullet.remove();
-          }
-         })
+          };
+         });
 
           if(bulletBottom === 700) {
             bullet.remove();
             clearInterval(moveBullet);
           };
 
-         })
-      },5)
+         });
+      },5);
+};
 
-}
+
+//Gameover
+function gameOver(){
+  isGameOver = true;
+ 
+  clearInterval(generateAlienId);
+  clearInterval(moveAlienId);
+  
+ const overDiv = document.createElement("div");
+ const overh1 = document.createElement("h1");
+ const overTxt = document.createTextNode("Game over");
+ const overP = document.createElement("p");
+ const overTxtTwo = document.createTextNode("Your score is : ");
+ const overSpan = document.createElement("span");
+ 
+ overSpan.textContent = scoreUpdate;
+
+ overDiv.classList.add("game-over");
+ overh1.appendChild(overTxt);
+ overP.appendChild(overTxtTwo);
+ overP.appendChild(overSpan);
+ overDiv.appendChild(overh1);
+ overDiv.appendChild(overP);
+ container.appendChild(overDiv);
+};

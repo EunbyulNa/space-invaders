@@ -7,10 +7,10 @@
 .start {
   position: absolute;
   text-align: center;
-    z-index: 3;
-    width: 100vw;
-    height: 100vh;
-    background-color: black;
+  z-index: 3;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
 }
 
 .start-txt {
@@ -28,20 +28,16 @@
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: 'Press Start 2P', cursive;
-  
-   width: 500px;
-   height: 300px;
-   background-color: white;
-   border: 1px solid white;
-   display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 30px;
+  width: 500px;
+  height: 300px;
+  background-color: white;
+  border: 1px solid white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
 }
-
-
-
 
 .container {
   background-image: url('img/background.jpg');
@@ -52,17 +48,13 @@
 }
 
 .score, .timer {
-    margin-top: 20px;
+  margin-top: 20px;
   font-family: 'Press Start 2P', cursive;
   text-align: center;
   color: white;
 }
 
-
-
-
 #spaceship {
-
   position: relative;
   width: 80px;
   position: absolute;
