@@ -2,7 +2,9 @@
 const container= document.querySelector(".container");
 let spaceship = document.querySelector("#spaceship");
 let scoreUpdate = 0;
-let timerUpdate = 0;
+let timerUpdate=0;
+let generateAlienId;
+let moveAlienId;
 
 window.addEventListener("DOMContentLoaded", createStartImg);
 
@@ -24,18 +26,8 @@ function createStartImg() {
  });
 };
 
-/*function gameOver() {
-  let end = document.createElement("div");
-  const h1 = document.createElement("h1");
-  end.classList.add("start");
-  const endTxt = document.createTextNode("Gameover");
-  h1.appendChild(endTxt);
-  end.appendChild(h1);
-  h1.classList.add("start-txt");
-  container.appendChild(end);
 
 
-}*/
 
 //Start the game
 function startGame() {
@@ -43,35 +35,66 @@ function startGame() {
     start.remove();
     generateScore();
     generateTimer();
-    
-    //Timer
+    timeReduce()
+    generateAlienId = setInterval(generateAlien, 1500);
+    moveAlienId = setInterval(moveAlien, 450);
 
-  let startMin = 1;
-  let time = startMin * 60;
-  
-  const timerWork = setInterval(() => {
-    let mins = Math.floor(time / 60);
-    let second = time % 60;
-
-    let aTimer = document.querySelector(".timer span");
-    
-    time --;
-    
-    console.log(mins + ":" + second)
-
-    timerUpdate =  mins + ":" + second;
-  
-    aTimer.textContent = timerUpdate;
-  
-    if(second === 0 ){
-      clearInterval(timerWork)
-    }
-  },1000)
-
-
-    //setInterval(generateAlien,1500);
-    //setInterval(moveAlien,450);
 }
+
+function timeReduce() {
+  let time = 60; //60seconds
+
+  const timerWork = setInterval(() => {
+  let aTimer = document.querySelector(".timer span");
+
+  let mins = Math.floor(time / 60);   //1
+  let second = time % 60;   //1 % 60 -> 0
+
+  //if mins are less than 10 add "0" front of mins,
+  //if seconds are less than 10, add "0" front of seconds
+    if(mins < 10) {
+    mins = "0" + mins;
+  }
+  if(second < 10) {
+    second = "0" + second;
+  }
+  
+  timerUpdate = mins + ":" +  second;
+  aTimer.textContent = timerUpdate;
+
+  time --;
+ 
+  if(time == 55 ){
+    clearInterval(timerWork);
+   
+     gameOver();
+  }
+},1000)
+}
+
+//Gameover
+function gameOver(){
+  
+
+spaceship.remove();
+  clearInterval(generateAlienId);
+  clearInterval(moveAlienId);
+ const overDiv = document.createElement("div");
+ const overh1 = document.createElement("h1");
+ const overTxt = document.createTextNode("Game over");
+ const overP = document.createElement("p");
+ const overTxtTwo = document.createTextNode("Your score is : ");
+
+ overDiv.classList.add("game-over");
+ overh1.appendChild(overTxt);
+ overP.appendChild(overTxtTwo);
+ overDiv.appendChild(overh1);
+ overDiv.appendChild(overP);
+ container.appendChild(overDiv);
+
+}
+
+
 
 //GenerateScore
 function generateScore() {
@@ -105,10 +128,6 @@ function generateTimer() {
 
 }
 
-  
-  
-
-
 
 //Generate aliens
 function generateAlien() {
@@ -125,33 +144,11 @@ function moveAlien() {
   aliens.forEach( (alien) => {
     let alienTop = parseInt(window.getComputedStyle(alien).getPropertyValue("top"));
      alien.style.top = alienTop + 20 + 'px';
-
-
-     // check for collision with spaceship
-    /*let spaceshipRect = spaceship.getBoundingClientRect();
-    let alienRect = alien.getBoundingClientRect();
-    let padding = 50;
-
-    //spaceship.style.border = "1px solid red"
-
-    if (alienRect.top <= spaceshipRect.bottom - padding&&
-        alienRect.bottom >= spaceshipRect.top + padding&&
-        alienRect.left <= spaceshipRect.right - padding&&
-        alienRect.right >= spaceshipRect.left + padding)
-        {
-      // collision detected, end the game
-      clearInterval(generateAlien,1500);
-      clearInterval(moveAlien,450);
-      alert("gameover")
-    }*/
-
-
      if(alienTop === 700) {
        alien.remove()
      };
   });
 };
-
 
 //Spaceship position movement
 window.addEventListener("keydown", function(e) {
