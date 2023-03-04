@@ -11,28 +11,25 @@ The game has a one-minute timer, and if time runs out, the game is over. The fin
 
 ## 🛠️ Building 
 ### 1. Generate start game, start game
+Once the page has loaded, the Start Game page will appear. If the user presses the Enter key, the start image will disappear and the game will begin. To achieve this, I created the elements div and h1 and added an if statement to execute the startgame() function when the user presses Enter.
 
-### 2. Generate score 
+In the startgame() function, I added an isGameover boolean with an initial value of false and called the generateScore(), generateTimer(), and timeReduce() functions. I used setInterval() to store the generateAlien() function, which will execute every 1500 milliseconds, in the generateAlienId variable for reuse.
 
-### 3. Generate timer
-
-### 4. Time reduce
-
-### 5. Generate aliens, and move
-
-### 6. Move a spaceship
-
-### 7. Generate bullet, and movement 
-
-### 8. Bullets and alien 
-
-### 9. Game over
+### 2. Generate score, timer
+Every time the user fires at an alien, the score will increase, and the score will be stored and displayed in the score span. Similarly, I created a timer span to update the timer as the game progresses.
 
 
+### 3. Time reduce
 
+### 4. Generate aliens, and move
 
+### 5. Move a spaceship
 
+### 6. Generate bullet, and movement 
 
+### 7. Bullets and alien 
+
+### 8. Game over
 
 
  
