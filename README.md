@@ -20,10 +20,24 @@ Every time the user fires at an alien, the score will increase, and the score wi
 
 
 ### 3. Time reduce
+To create a 1-minute timer, I set the time variable to 60 and created two new variables: "mins" and "seconds". This way, I can display the time in the format "Mins : Seconds". To calculate the number of minutes, I divide the time variable by 60 and round down to the nearest integer using the "floor" function. This gives me the value of "mins". To calculate the number of seconds, I use the remainder of the division operation (% operator). 
+
+To display the time with leading zeros, I use an "if" statement. If the value of "mins" is less than 10, I add a "0" in front of it. Similarly, if the value of "seconds" is less than 10, I add a "0" in front of it. This formatted time is then displayed in the timer span.
+
+When the timer reaches 0, the "setInterval" function is cleared and the "gameOver()" function is executed.
+
 
 ### 4. Generate aliens, and move
+To generate aliens, I create an image element and set the image source attribute. Since these aliens will be generated randomly, I use the Math.random() method. "Math.random() * 1000" means that the random number generated will be between 0 and 1000. I round this number down using Math.floor.
+
+To move the aliens down, I select all the aliens and loop through each one. I use the getComputedStyle.getPropertyValue("top") method to get the current position of the alien and then set its style.top property. This moves the alien down by adding 20 pixels to its top position. To prevent the aliens from overcrowding the screen, I use an "if" statement. If the alienTop reaches 700, then the alien is removed.
+
 
 ### 5. Move a spaceship
+To move the spaceship only using the keyboard, I use the keydown event function. I also add a boolean variable called "isGameover". If the game is over, the keydown event function is exited. Otherwise, the user can move the spaceship.
+
+First, I get the current left position of the spaceship using the getComputedStyle.getPropertyValue("left") method. If the user presses the ArrowLeft key code, the spaceship moves to the left. Similarly, if the user presses the ArrowRight key code, the spaceship moves to the right. If the user presses the spacebar key, the "generateBullet()" function is executed.
+
 
 ### 6. Generate bullet, and movement 
 
