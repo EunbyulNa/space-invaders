@@ -51,6 +51,13 @@ When the 1-minute timer finishes, the game over function is executed. In the gam
 
  
 ## 👾 Debugging
+1. console.log() <br>
+Whenever I encounter a bug, I always check what the initial problem is using the console.
 
+2. Tutorial video <br>
+While building this game, I referred to a tutorial video, but the code is not the same (I added my own features). As a beginner web developer, I often don't know where to start. Watching a tutorial video is a good way to start, but I need to write code only when I truly understand it. Otherwise, I'll just be copying and pasting!
+
+3. ChatGPT <br>
+When debugging code, I use ChatGPT with specific questions. I can't just ask "Can you fix my code?" I need to know what the problem is first and ask a more specific question, such as "I am trying to make a bullet and alien collision part. How can I find the collision position? Here is my code. Can you review and debug it?" Using ChatGPT can be similar to asking someone else on Stack Overflow or asking a mentor. So, I personally think you shouldn't be afraid to use new technology. As long as you understand what the code means, it's fine!
 
 
